@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: INFO
+    com.logpyx: DEBUG
+  pattern:
+    console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){green} %-20thread %-5level %-20logger{0} - %msg%n'
+    file: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){green} %-20thread %-5level %-20logger{0} - %msg%n'
+  file:
+    name: /deployments/logs/spring.log
