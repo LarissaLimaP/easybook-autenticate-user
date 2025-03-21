@@ -36,17 +36,10 @@ public class UsersController {
                 log.warn("Tentativa de cadastro com username nulo ou vazio.");
                 return ResponseEntity.badRequest().body("O username não pode ser nulo ou vazio.");
             }
-            if (userDto.getProfile() == null) {
-                log.warn("Tentativa de cadastro com perfil nulo.");
-                return ResponseEntity.badRequest().body("O perfil não pode ser nulo.");
-            }
             User user = new User();
-            user.setUsername(userDto.getUsername());
-            user.setPassword(userDto.getPassword());
-            user.setProfile(userDto.getProfile());
-
+            user.setUsuario(userDto.getUsername());
+            user.setSenha(userDto.getPassword());
             userService.cadastrarUsuario(user);
-
             return new ResponseEntity<>("Usuário cadastrado com sucesso!", HttpStatus.CREATED);
 
         } catch (IllegalArgumentException e) {

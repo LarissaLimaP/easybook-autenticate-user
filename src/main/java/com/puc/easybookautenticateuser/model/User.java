@@ -1,6 +1,7 @@
 package com.puc.easybookautenticateuser.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.puc.easybookautenticateuser.format.Tipo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,23 +11,25 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "usuarios")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Column
-    private String username;
-
+    private String nomeExibicao;
+    @Column
+    private Tipo tipo;
+    @Column
+    private String fotoPerfil;
+    @Column
+    private String usuario;
     @Column
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
+    private String senha;
+    @Column
+    private int deletado;
 
-    @ManyToOne
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
-
-    public User(String username, String password, Profile profile) {
+    public User(String usuario, String senha) {
     }
 }

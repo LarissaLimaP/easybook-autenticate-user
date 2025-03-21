@@ -20,10 +20,10 @@ public class UserService {
 
     public User cadastrarUsuario(User user) {
         try {
-            if (userRepository.existsByUsername(user.getUsername())) {
+            if (userRepository.existsByUsuario(user.getUsuario())) {
                 throw new IllegalArgumentException("Username já está em uso.");
             }
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setSenha(passwordEncoder.encode(user.getSenha()));
             return userRepository.save(user);
         } catch (IllegalArgumentException | ResponseStatusException e) {
             log.error("Erro ao cadastrar usuário: {}", e.getMessage());
