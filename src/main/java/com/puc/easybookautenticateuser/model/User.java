@@ -19,6 +19,7 @@ public class User {
     @Column
     private String nomeExibicao;
     @Column
+    @Enumerated(EnumType.STRING)
     private Tipo tipo;
     @Column
     private String fotoPerfil;
@@ -28,7 +29,7 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
     @Column
-    private int deletado;
+    private Boolean deletado;
 
     public User(String usuario, String senha) {
     }

@@ -6,14 +6,22 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 public class UserDto {
-    private String username;
-    private String password;
+    private String nomeExibicao;
+    private Tipo tipo;
+    private String fotoPerfil;
+    private String usuario;
+    private String senha;
+    private Boolean deletado;
 
     @Override
     public String toString() {
         return "UserDto{" +
-                "user='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "usuario='" + usuario + '\'' +
+                ", senha='" + senha + '\'' +
+                ", deletado='" + 0 + '\'' +
+                ", nomeExibicao='" + nomeExibicao + '\'' +
+                ", fotoPerfil='" + fotoPerfil + '\'' +
+                ", tipo='" + tipo + '\'' +
                 '}';
     }
 }

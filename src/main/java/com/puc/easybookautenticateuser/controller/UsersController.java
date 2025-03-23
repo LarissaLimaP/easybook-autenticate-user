@@ -7,6 +7,7 @@ import com.puc.easybookautenticateuser.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,20 +26,27 @@ public class UsersController {
     }
 
     @PostMapping("/cadastro")
+    @Transactional
     public ResponseEntity<String> cadastroUser(@RequestBody UserDto userDto) {
+
+        //System.out.println(userDto.getDeletado());
         try {
-            if (userDto.getPassword() == null || userDto.getPassword().isBlank()) {
+            if (userDto.getSenha() == null || userDto.getSenha().isBlank()) {
                 log.warn("Tentativa de cadastro com senha nula ou vazia.");
                 return ResponseEntity.badRequest().body("A senha não pode ser nula ou vazia.");
             }
 
-            if (userDto.getUsername() == null || userDto.getUsername().isBlank()) {
+            if (userDto.getUsuario() == null || userDto.getUsuario().isBlank()) {
                 log.warn("Tentativa de cadastro com username nulo ou vazio.");
                 return ResponseEntity.badRequest().body("O username não pode ser nulo ou vazio.");
             }
             User user = new User();
-            user.setUsuario(userDto.getUsername());
-            user.setSenha(userDto.getPassword());
+            user.setUsuario(userDto.getUsuario());
+            user.setSenha(userDto.getSenha());
+            user.setDeletado(false);
+            user.setTipo(userDto.getTipo());
+            user.setNomeExibicao(userDto.getNomeExibicao());
+            user.setFotoPerfil(userDto.getFotoPerfil());
             userService.cadastrarUsuario(user);
             return new ResponseEntity<>("Usuário cadastrado com sucesso!", HttpStatus.CREATED);
 
