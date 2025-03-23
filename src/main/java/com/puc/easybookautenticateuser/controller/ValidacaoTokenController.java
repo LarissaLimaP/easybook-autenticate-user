@@ -24,7 +24,7 @@ public class ValidacaoTokenController {
     private TokenService tokenService;
 
     @GetMapping
-    public Boolean TokenValido(@RequestBody DadosTokenValidacao dados) {
+    public String TokenValido(@RequestBody DadosTokenValidacao dados) {
         System.out.println(dados.token().trim());
         return tokenService.validarToken(dados.token().trim());
     }

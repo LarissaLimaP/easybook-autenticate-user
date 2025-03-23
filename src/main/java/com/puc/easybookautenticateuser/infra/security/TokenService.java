@@ -20,16 +20,17 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public Boolean validarToken(String token) {
+    public String validarToken(String token) {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
+            DecodedJWT decodedJWT;
             JWTVerifier verifier = JWT.require(algoritmo)
                     .withIssuer("API eixo 6") // Verifica o emissor
                     .build();
-            verifier.verify(token); // Valida o token
-            return true; // Token é legítimo e válido
+            decodedJWT = verifier.verify(token); // Valida o token
+            return decodedJWT.getClaims().toString(); // Token é legítimo e válido
         } catch (JWTVerificationException exception) {
-            return false; // Token inválido ou expirado
+            return "Token inválido ou expirado!"; // Token inválido ou expirado
         }
     }
 
@@ -42,7 +43,8 @@ public class TokenService {
                     .withIssuer("API eixo 6")
                     .withSubject(usuario.getUsuario())
                     .withExpiresAt(dataExpiracao())
-                    //.withClaim("id", usuario.getId())
+                    .withClaim("id", usuario.getId())
+                    .withClaim("tipo", usuario.getTipo().toString())
                     .sign(algoritmo);
         } catch (JWTCreationException exception){
             throw new RuntimeException("erro ao gerar token jwt", exception);
