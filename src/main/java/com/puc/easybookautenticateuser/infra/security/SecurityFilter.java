@@ -25,6 +25,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (request.getRequestURI().equals("/login")) {
             filterChain.doFilter(request, response);
             return;
+        }if (request.getRequestURI().equals("/validar")) {
+            filterChain.doFilter(request, response);
+            return;
         }
         if (request.getRequestURI().equals("/api/user/cadastro")) {
             filterChain.doFilter(request, response);

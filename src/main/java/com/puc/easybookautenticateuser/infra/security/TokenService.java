@@ -20,6 +20,19 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+    public Boolean validarToken(String token) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+            JWTVerifier verifier = JWT.require(algoritmo)
+                    .withIssuer("API eixo 6") // Verifica o emissor
+                    .build();
+            verifier.verify(token); // Valida o token
+            return true; // Token é legítimo e válido
+        } catch (JWTVerificationException exception) {
+            return false; // Token inválido ou expirado
+        }
+    }
+
 
     public String gerarToken(Usuario usuario) {
 
@@ -53,7 +66,7 @@ public class TokenService {
     }
 
     private Instant dataExpiracao() {
-        return LocalDateTime.now().plusDays(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusSeconds(10).toInstant(ZoneOffset.of("-03:00"));
     }
 
 }
