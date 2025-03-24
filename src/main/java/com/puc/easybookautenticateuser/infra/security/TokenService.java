@@ -6,9 +6,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.puc.easybookautenticateuser.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.puc.easybookautenticateuser.usuario.Usuario;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -35,7 +35,7 @@ public class TokenService {
     }
 
 
-    public String gerarToken(Usuario usuario) {
+    public String gerarToken(User usuario) {
 
         try {
             var algoritmo = Algorithm.HMAC256(secret);
