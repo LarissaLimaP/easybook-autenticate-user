@@ -29,7 +29,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        if (request.getRequestURI().equals("/api/user/cadastro")) {
+        if (request.getRequestURI().equals("/api/user/")) {
             filterChain.doFilter(request, response);
             return;
         }
