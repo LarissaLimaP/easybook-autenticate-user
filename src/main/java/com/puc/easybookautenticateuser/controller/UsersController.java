@@ -1,10 +1,13 @@
 package com.puc.easybookautenticateuser.controller;
 
 import com.puc.easybookautenticateuser.format.UserDto;
+import com.puc.easybookautenticateuser.format.UserResponseDto;
 import com.puc.easybookautenticateuser.model.User;
 import com.puc.easybookautenticateuser.repository.UserRepository;
 import com.puc.easybookautenticateuser.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -63,17 +66,35 @@ public class UsersController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> allUsers() {
+    public ResponseEntity<List<UserResponseDto>> allUsers() {
         List<User> users = userRepository.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        List<UserResponseDto> response = users.stream()
+                .map(u -> new UserResponseDto(
+                        u.getNomeExibicao(),
+                        u.getTipo(),
+                        u.getFotoPerfil(),
+                        u.getUsuario(),
+                        u.getDeletado()))
+                .toList();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Integer id) {
         Optional<User> user = userRepository.findById(id);
-        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return user.map(u -> {
+            UserResponseDto dto = new UserResponseDto(
+                    u.getNomeExibicao(),
+                    u.getTipo(),
+                    u.getFotoPerfil(),
+                    u.getUsuario(),
+                    u.getDeletado()
+            );
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
 
     @PutMapping("/{id}")
     @Transactional
